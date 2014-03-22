@@ -1,6 +1,10 @@
+import java.util.Queue;
+
 
 public class Elevator extends AbstractElevator  {
 
+	Queue<Integer> floorQueue;
+	
 	public Elevator(int numFloors, int elevatorId, int maxOccupancyThreshold) {
 		super(numFloors, elevatorId, maxOccupancyThreshold);
 		// TODO Auto-generated constructor stub
@@ -8,38 +12,36 @@ public class Elevator extends AbstractElevator  {
 
 	@Override
 	public void OpenDoors() {
-		// TODO Auto-generated method stub
-		
+		// called by elevator
+		// threads exit, threads enter, stop movement (open gate)
 	}
 
 	@Override
 	public void ClosedDoors() {
-		// TODO Auto-generated method stub
-		
+		// called by elevator
+		// resume movement (close gate)
 	}
 
 	@Override
 	public void VisitFloor(int floor) {
-		// TODO Auto-generated method stub
+		// called by elevator
 		
 	}
 
 	@Override
 	public boolean Enter() {
-		// TODO Auto-generated method stub
+		// called by rider
 		return false;
 	}
 
 	@Override
 	public void Exit() {
-		// TODO Auto-generated method stub
-		
+		// called by rider (complete)
 	}
 
 	@Override
 	public void RequestFloor(int floor) {
-		// TODO Auto-generated method stub
-		
+		// called by rider (arrive)
 	}
 
 }

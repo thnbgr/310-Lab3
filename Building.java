@@ -8,13 +8,13 @@ public class Building extends AbstractBuilding {
 
 	@Override
 	public AbstractElevator CallUp(int fromFloor) {
-		// TODO Auto-generated method stub
+		// call by rider
 		return null;
 	}
 
 	@Override
 	public AbstractElevator CallDown(int fromFloor) {
-		// TODO Auto-generated method stub
+		// call by rider
 		return null;
 	}
 

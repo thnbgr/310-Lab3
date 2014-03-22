@@ -27,7 +27,7 @@ public class EventBarrierTest {
 		
 		
 
-		assertTrue(e.waiters() == 0);
+		assertTrue(e.waiters() == 2);
 
 		
 		
