@@ -10,6 +10,7 @@ public abstract class AbstractEventBarrier {
 	/**
 	 * Arrive at the barrier and wait until an event is signaled. Return
  	 * immediately if already in the signaled state.
+<<<<<<< HEAD
 	 * @throws InterruptedException 
  	 */
 	public abstract void arrive() throws InterruptedException;
