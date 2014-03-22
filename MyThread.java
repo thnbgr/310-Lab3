@@ -4,7 +4,9 @@ public class MyThread extends Thread {
 	public MyThread(EventBarrier e) {
 		event = e;
 	}
+	
 	public void run() {
+			
 		try {
 			event.arrive();
 		} catch (InterruptedException e) {
@@ -12,12 +14,14 @@ public class MyThread extends Thread {
 			e.printStackTrace();
 		}
 		
+		//for (int i = 0;i<1000000;i++) {}
+		
 		try {
-			Thread.sleep(1000);
+			event.complete();
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		event.complete();
+		
 	}
 }

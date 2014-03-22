@@ -18,15 +18,17 @@ public abstract class AbstractEventBarrier {
 	 * Signal the event and block until all threads that wait for this
  	 * event have responded. The EventBarrier returns to an unsignaled state
  	 * before raise() returns.
+	 * @throws InterruptedException 
  	 */	
-	public abstract void raise();
+	public abstract void raise() throws InterruptedException;
 	
 	/**
 	 * Indicate that the calling thread has finished responding to a
  	 * signaled event, and block until all other threads that wait for 
  	 * this event have also responded.
+	 * @throws InterruptedException 
  	 */
-	public abstract void complete();
+	public abstract void complete() throws InterruptedException;
 
 	/**
 	 * Return a count of threads that are waiting for the event or that
