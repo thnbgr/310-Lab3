@@ -5,8 +5,8 @@ import java.util.Queue;
 
 public class Building extends AbstractBuilding {
 	protected ArrayList<Elevator> myElevators = new ArrayList<Elevator>();
-	protected EventBarrier[][] getOnBarriers; // Floor, Elevator
-	protected EventBarrier[][] getOffBarriers; // Floor, Elevator
+	protected EventBarrier[][] getOnBarriers; // Elevator, Floor
+	protected EventBarrier[][] getOffBarriers; // Elevator, Floor
 	protected int myNumFloors, myNumElevators;
 	
 	public Building(int numFloors, int numElevators) {
@@ -15,18 +15,19 @@ public class Building extends AbstractBuilding {
 		
 		myNumFloors = numFloors;
 		myNumElevators = numElevators;
-		getOnBarriers = new EventBarrier[numFloors+1][numElevators+1];
+		getOnBarriers = new EventBarrier[numElevators+1][numFloors+1];
 		
 		for(int i = 1; i <= numElevators; i++)
 		{
-			Elevator newElevator = new Elevator(myNumFloors, i, 10000);
-			myElevators.add(newElevator);
 			
 			for(int j = 1; j <= numFloors; j++)
 			{
 				getOnBarriers[i][j] = new EventBarrier();
 				getOffBarriers[i][j] = new EventBarrier();
 			}
+			
+			Elevator newElevator = new Elevator(myNumFloors, i, 10000);
+			myElevators.add(newElevator);
 		}
 	}
 
