@@ -14,10 +14,6 @@ public class Elevator extends AbstractElevator {
 		// TODO Auto-generated constructor stub
 		currentFloor = 1;
 	}
-	
-	private void getNextFloor() {
-		VisitFloor(floorQueue.poll());
-	}
 
 	@Override
 	public void OpenDoors() {

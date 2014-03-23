@@ -16,8 +16,6 @@ public class ElevatorThread extends Thread {
 			e.printStackTrace();
 		}
 
-		// for (int i = 0;i<1000000;i++) {}
-
 		try {
 			event.complete();
 		} catch (InterruptedException e) {
