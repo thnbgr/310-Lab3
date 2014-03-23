@@ -4,20 +4,14 @@ public class Main {
 		
 EventBarrier e = new EventBarrier();
 		
-		MyThread t1 = new MyThread(e);
+		MyThread t1 = new MyThread(e, false);
 
-		MyThread t2 = new MyThread(e);
+		MyThread t2 = new MyThread(e, true);
 
 		t1.start();
 
 		t2.start();
 		
-		try {
-			e.raise();
-		} catch (InterruptedException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
 		
 		System.out.println(e.waiters());
 	}
