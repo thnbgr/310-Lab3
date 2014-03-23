@@ -27,6 +27,8 @@ public class Elevator extends AbstractElevator {
 	public void ClosedDoors() {
 		// TODO Auto-generated method stub
 		doorsClosed = true;
+		// called by elevator
+		// resume movement (close gate)
 	}
 
 	@Override
@@ -41,6 +43,7 @@ public class Elevator extends AbstractElevator {
 		// Check if queue is empty. If not, pop the next request and VisitFloor
 		
 		// If queue is empty, then wait until new requests come in
+		// called by elevator
 		
 	}
 
@@ -50,6 +53,7 @@ public class Elevator extends AbstractElevator {
 		if(doorsClosed == false)
 			return true;
 		
+		// called by rider
 		return false;
 	}
 
@@ -59,6 +63,7 @@ public class Elevator extends AbstractElevator {
 		if(doorsClosed == false)
 			return;
 		
+		// called by rider (complete)
 	}
 
 	@Override
@@ -67,6 +72,7 @@ public class Elevator extends AbstractElevator {
 		
 		requests.add(floor);
 		
+		// called by rider (arrive)
 	}
 
 }
