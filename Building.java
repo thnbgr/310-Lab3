@@ -26,7 +26,7 @@ public class Building extends AbstractBuilding {
 				getOffBarriers[i][j] = new EventBarrier();
 			}
 			
-			Elevator newElevator = new Elevator(myNumFloors, i, 10000);
+			Elevator newElevator = new Elevator(myNumFloors, i, 10000, getOnBarriers[i], getOffBarriers[i]);
 			myElevators.add(newElevator);
 		}
 	}
@@ -49,6 +49,4 @@ public class Building extends AbstractBuilding {
 		return myElevators.get(0);
 	}
 	
-
-
 }

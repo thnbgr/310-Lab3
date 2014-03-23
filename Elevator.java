@@ -6,7 +6,8 @@ public class Elevator extends AbstractElevator {
 
 	protected int currentFloor;
 	protected Queue<Integer> requests = new LinkedList<Integer>();
-	protected EventBarrier[] myEventBarriers;	
+	protected EventBarrier[] myOnBarriers;	
+	protected EventBarrier[] myOffBarriers;
 	protected EventBarrier currentBarrier;
 	protected boolean doorsClosed;
 	
@@ -16,11 +17,12 @@ public class Elevator extends AbstractElevator {
 		currentFloor = 1;
 	}
 	
-	public Elevator(int numFloors, int elevatorId, int maxOccupancyThreshold, EventBarrier[] floorBarriers) {
+	public Elevator(int numFloors, int elevatorId, int maxOccupancyThreshold, EventBarrier[] floorOnBarriers, EventBarrier[] floorOffBarriers) {
 		super(numFloors, elevatorId, maxOccupancyThreshold);
 		// TODO Auto-generated constructor stub
 		currentFloor = 1;
-		myEventBarriers = floorBarriers;
+		myOnBarriers = floorOnBarriers;
+		myOffBarriers = floorOffBarriers;
 	}
 
 	@Override
