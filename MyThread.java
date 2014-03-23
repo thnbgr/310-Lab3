@@ -1,3 +1,4 @@
+
 public class MyThread extends Thread {
 	EventBarrier event;
 	boolean gateKeeper;

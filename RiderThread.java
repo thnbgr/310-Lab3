@@ -12,6 +12,7 @@ public class RiderThread extends Thread {
 	}
 
 	public void run() {
+		// enclose this all in a while loop
 
 		// Deciding whether to call up or down
 		if(myToFloor > myFromFloor)
@@ -27,17 +28,19 @@ public class RiderThread extends Thread {
 
 		// Align the rider with the appropriate event barrier and wait on that until the elevator comes and does OpenDoor to raise the barrier
 		try {
-			eventGettingOn = myBuilding.getOnBarriers[myFromFloor][myElevator.elevatorId];
-			eventGettingOn.arrive();
+			eventGettingOn = myBuilding.getOnBarriers[myElevator.elevatorId][myFromFloor];
+			eventGettingOn.arrive(); // wait on barrier
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
-		// Once the door is open, the rider can enter
+		// Once the door is open, the rider can enter - the OpenDoor() should result in the eventGettingOn barrier to raise()
 
 		try {
-			myElevator.Enter(); // wth does this do
+			if(!myElevator.Enter())
+				/// ENTER CODE - if false, wait for the elevator to leave
+				// another event barrier specific for failing to enter the elevator due to capacity issue should wait on the 
 			eventGettingOn.complete();
 			myElevator.RequestFloor(myToFloor);	
 					// WHEN DOES SLEEP HAPPEN?
