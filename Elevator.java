@@ -9,6 +9,10 @@ public class Elevator extends AbstractElevator  {
 		super(numFloors, elevatorId, maxOccupancyThreshold);
 		// TODO Auto-generated constructor stub
 	}
+	
+	private void getNextFloor() {
+		VisitFloor(floorQueue.poll());
+	}
 
 	@Override
 	public void OpenDoors() {
