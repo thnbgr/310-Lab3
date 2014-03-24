@@ -26,7 +26,9 @@ public class Elevator extends AbstractElevator {
 	}
 
 	public void goToNextFloor() {
-		
+		// close door
+		// move (VisitFloor)
+		// open door
 	}
 	
 	@Override

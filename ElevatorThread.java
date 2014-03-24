@@ -9,9 +9,9 @@ public class ElevatorThread extends Thread {
 
 	public void run() {
 		
-		while (true) { // keep going as long as there are more requests
+		while (!myElevator.requests.isEmpty()) { // keep going as long as there are more requests
 			
-		myElevator.goToNextFloor();
+			myElevator.goToNextFloor();
 
 		try {
 			event.raise();
@@ -19,6 +19,7 @@ public class ElevatorThread extends Thread {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
 
 		
 	}

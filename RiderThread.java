@@ -38,19 +38,19 @@ public class RiderThread extends Thread {
 		// Once the door is open, the rider can enter - the OpenDoor() should result in the eventGettingOn barrier to raise()
 
 		try {
-			if(!myElevator.Enter()) {} else {
-				/// ENTER CODE - if false, wait for the elevator to leave
-				// another event barrier specific for failing to enter the elevator due to capacity issue should wait on the 
-			eventGettingOn.complete(); // waiting for all to enter
+			if(!myElevator.Enter()) {
+				// deal with max capacity
+			} else {
+				
+				myElevator.RequestFloor(myToFloor);
+				eventGettingOn.complete(); // waiting for all to enter
 			}
-					// WHEN DOES SLEEP HAPPEN?
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
 		
 		
 		
-		myElevator.RequestFloor(myToFloor);
 
 		try {
 			eventGettingOff = myBuilding.getOffBarriers[myElevator.elevatorId][myToFloor];
