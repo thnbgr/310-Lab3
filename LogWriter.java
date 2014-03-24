@@ -5,18 +5,33 @@ import java.io.PrintWriter;
 
 
 public class LogWriter {
+	
+	private static String file_path = "src/output.log";
 
-	public static void log(String str) {
+	public static void log(String str, long time) {
+		
 	    PrintWriter printWriter = null;
 		try {
 			printWriter = new PrintWriter(
-					(new BufferedWriter(new FileWriter("output.log", true)))
+					(new BufferedWriter(new FileWriter(file_path, true)))
 					);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	    printWriter.println(str);
-	    printWriter.close ();
+	    printWriter.println(time+": "+str);
+	    printWriter.close();
+	}
+	
+	public static void flush() {
+		PrintWriter printWriter = null;
+		try {
+			printWriter = new PrintWriter(
+					(new BufferedWriter(new FileWriter(file_path, false)))
+					);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	    printWriter.print("");
+	    printWriter.close();
 	}
 }

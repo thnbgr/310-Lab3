@@ -24,35 +24,45 @@ public class Elevator extends AbstractElevator {
 		myOnBarriers = floorOnBarriers;
 		myOffBarriers = floorOffBarriers;
 		myEventBarrier = new EventBarrier();
+		doorsClosed = true;
 	}
 
 	public void goToNextFloor() {
+		if (doorsClosed = false) {
 		ClosedDoors();
-		VisitFloor(requests.poll());
+		long start = System.nanoTime();
+		LogWriter.log("E"+elevatorId+" on F"+currentFloor+" closes", start);
+		}
+		int nextFloor = requests.poll();
+		VisitFloor(nextFloor);
 		OpenDoors();
+		long start = System.nanoTime();
+
+		LogWriter.log("E"+elevatorId+" on F"+nextFloor+" opens", start);
 	}
 	
 	@Override
 	public void OpenDoors() {
-		// TODO Auto-generated method stub
 		doorsClosed = false;
-		
-		// Notify on the specific barrier
 	}
 
 	@Override
 	public void ClosedDoors() {
-		// TODO Auto-generated method stub
 		doorsClosed = true;
-		// called by elevator
-		// resume movement (close gate)
 	}
 
 	@Override
 	public void VisitFloor(int floor) {
 		// Visits certain floor
+		if (currentFloor < floor) {
+			long start = System.nanoTime();
+			LogWriter.log("E"+elevatorId+" moves up to floor "+floor, start);
+		} else {
+			long start = System.nanoTime();
+			LogWriter.log("E"+elevatorId+" moves down to floor "+floor, start);
+		}
 		currentFloor = floor;
-		LogWriter.log("E"+elevatorId+" moves to floor "+floor);
+
 	}
 
 	@Override
@@ -75,13 +85,9 @@ public class Elevator extends AbstractElevator {
 
 	@Override
 	public synchronized void RequestFloor(int floor) { // called by building
-		// TODO Auto-generated method stub
-		
 		requests.add(floor);
-		
 		//requests = FloorManager.process(requests, floor);
 		
-		// called by rider (arrive)
 	}
 
 }

@@ -16,24 +16,27 @@ public class RiderThread extends Thread {
 	}
 
 	public void run() {
-	    while (s.hasNext()) {
-	    	String input = s.next();
+	    while (s.hasNextLine()) {
+	    	String input = s.nextLine();
 	    	String[] values = input.split(" ");
 	    	int riderNumber = Integer.parseInt(values[0]);
 	    	int startingFloor = Integer.parseInt(values[1]);
 	    	int destinationFloor = Integer.parseInt(values[2]);
 
 	    	if (riderNumber != myId) continue;
-	    	
 		// Deciding whether to call up or down
 		if(destinationFloor > startingFloor)
 		{
 			// CALL SCHEDULE FUNCTION
+			long start = System.nanoTime();
+	    	LogWriter.log("R"+riderNumber+" pushes "+"U"+startingFloor, start);
 			myElevator = myBuilding.CallUp(startingFloor);
 		}
 		else
 		{
 			// CALL SCHEDULE FUNCTION
+			long start = System.nanoTime();
+	    	LogWriter.log("R"+riderNumber+" pushes "+"D"+startingFloor, start);
 			myElevator = myBuilding.CallDown(startingFloor);
 		}
 
@@ -54,6 +57,7 @@ public class RiderThread extends Thread {
 			e.printStackTrace();
 		}
 		
+		
 		try {
 			if(!myElevator.Enter()) {
 				// deal with max capacity
@@ -63,9 +67,13 @@ public class RiderThread extends Thread {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
+		long start = System.nanoTime();
+		LogWriter.log("R"+riderNumber+" enters E"+myElevator.elevatorId+" on F"+startingFloor, start);
+
 		
 		myElevator.RequestFloor(destinationFloor);
-		
+		start = System.nanoTime();
+		LogWriter.log("R"+riderNumber+" pushes E"+myElevator.elevatorId+"B"+destinationFloor, start);
 
 		try {
 			eventGettingOff = myBuilding.getOffBarriers[myElevator.elevatorId][destinationFloor];
@@ -76,6 +84,9 @@ public class RiderThread extends Thread {
 		
 		try {
 			myElevator.Exit();
+			start = System.nanoTime();
+			LogWriter.log("R"+riderNumber+" exits E"+myElevator.elevatorId+" on F"+destinationFloor, start);
+
 
 			eventGettingOff.complete(); // waiting for all to enter
 

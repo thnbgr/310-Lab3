@@ -52,8 +52,7 @@ public class EventBarrier extends AbstractEventBarrier {
 	}
 
 	@Override
-	public synchronized void complete() throws InterruptedException {
-		
+	public synchronized void complete() throws InterruptedException {	
 		numCompleted++;
 		System.out.println(numCompleted + " " + numArrived);
 		if (numCompleted == numArrived) {

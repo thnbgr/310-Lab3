@@ -1,6 +1,4 @@
 import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.Queue;
 
 public class Building extends AbstractBuilding {
 	protected ArrayList<Elevator> myElevators = new ArrayList<Elevator>();
@@ -19,6 +17,7 @@ public class Building extends AbstractBuilding {
 		myNumFloors = numFloors;
 		myNumElevators = numElevators;
 		getOnBarriers = new EventBarrier[numElevators + 1][numFloors + 1];
+		getOffBarriers = new EventBarrier[numElevators + 1][numFloors + 1];
 
 		for (int i = 1; i <= numElevators; i++) {
 
