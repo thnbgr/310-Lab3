@@ -25,6 +25,10 @@ public class Elevator extends AbstractElevator {
 		myOffBarriers = floorOffBarriers;
 	}
 
+	public void goToNextFloor() {
+		
+	}
+	
 	@Override
 	public void OpenDoors() {
 		// TODO Auto-generated method stub

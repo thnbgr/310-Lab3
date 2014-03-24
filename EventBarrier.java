@@ -13,7 +13,6 @@ public class EventBarrier extends AbstractEventBarrier {
 	{
 		numArrived = 0;
 		numWaiters = 0;
-
 		numCompleted = 0;
 		numComplete = 0;
 		barrierClosed = true;
