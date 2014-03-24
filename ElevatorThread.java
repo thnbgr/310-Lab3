@@ -1,29 +1,28 @@
 public class ElevatorThread extends Thread {
 	EventBarrier event;
-	int currentFloor;
+	Elevator myElevator;
 
 	public ElevatorThread(EventBarrier e, Elevator elev) {
 		event = e;
-		currentFloor = elev.currentFloor;
+		myElevator = elev; 
 	}
 
 	public void run() {
+		
+		while (!myElevator.requests.isEmpty()) { // keep going as long as there are more requests
+			
+			myElevator.goToNextFloor();
 
 		try {
-			event.arrive();
+			event.raise();
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
 
-		// for (int i = 0;i<1000000;i++) {}
-
-		try {
-			event.complete();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		
+	}
 
 	}
 }

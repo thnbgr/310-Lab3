@@ -25,6 +25,12 @@ public class Elevator extends AbstractElevator {
 		myOffBarriers = floorOffBarriers;
 	}
 
+	public void goToNextFloor() {
+		// close door
+		// move (VisitFloor)
+		// open door
+	}
+	
 	@Override
 	public void OpenDoors() {
 		// TODO Auto-generated method stub
@@ -70,8 +76,7 @@ public class Elevator extends AbstractElevator {
 	@Override
 	public void Exit() {
 		// TODO Auto-generated method stub
-		if(doorsClosed == false)
-			return;
+
 		
 		// called by rider (complete)
 	}

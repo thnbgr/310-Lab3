@@ -35,8 +35,4 @@ public abstract class AbstractEventBarrier {
  	 * have not responded yet.
  	 */
 	public abstract int waiters();
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> 6480f2c279f4c4d752567cd53d64663fe9a3e797
