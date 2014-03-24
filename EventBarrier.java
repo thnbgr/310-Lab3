@@ -1,6 +1,4 @@
-
 public class EventBarrier extends AbstractEventBarrier {
-
 
     protected int numArrived; // number that come to the gate
 	protected int numWaiters; // number that go to sleep because the gate is closed
@@ -18,7 +16,7 @@ public class EventBarrier extends AbstractEventBarrier {
 		barrierClosed = true;
 		crossing = false;
 	}
-	
+
 	@Override
 	public synchronized void arrive() throws InterruptedException
 	{
@@ -42,7 +40,7 @@ public class EventBarrier extends AbstractEventBarrier {
 		// TODO Auto-generated method stub
 		barrierClosed = false;
 		notifyAll();
-		
+
 		while (numCompleted < numArrived) // there are still more crossing
 		{
 			wait();
@@ -55,7 +53,7 @@ public class EventBarrier extends AbstractEventBarrier {
 
 	@Override
 	public synchronized void complete() throws InterruptedException {
-		
+
 		numCompleted++;
 		if (numCompleted == numArrived) {
 			notifyAll();

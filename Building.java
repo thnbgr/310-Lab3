@@ -7,11 +7,12 @@ public class Building extends AbstractBuilding {
 	protected EventBarrier[][] getOnBarriers; // Elevator, Floor
 	protected EventBarrier[][] getOffBarriers; // Elevator, Floor
 	protected int myNumFloors, myNumElevators;
-
-	public Building(int numFloors, int numElevators) {
+	
+	public Building(int numFloors, int numElevators)
+	{
 		super(numFloors, numElevators);
 	}
-
+	
 	public Building(int numFloors, int numElevators, int numCapacity) {
 		super(numFloors, numElevators);
 
@@ -25,6 +26,7 @@ public class Building extends AbstractBuilding {
 				getOnBarriers[i][j] = new EventBarrier();
 				getOffBarriers[i][j] = new EventBarrier();
 			}
+			
 
 			Elevator newElevator = new Elevator(myNumFloors, i, numCapacity,
 					getOnBarriers[i], getOffBarriers[i]);
