@@ -20,6 +20,20 @@ public class ElevatorThread extends Thread {
 			e.printStackTrace();
 		}
 		
+		try {
+			myElevator.myEventBarrier.arrive();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		try {
+			myElevator.myEventBarrier.complete();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		
 		
 		// NEED TO MAKE SURE THAT RIDERTHREAD HAS ARRIVED BEFORE THIS LINE

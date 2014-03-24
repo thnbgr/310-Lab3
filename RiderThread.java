@@ -16,8 +16,8 @@ public class RiderThread extends Thread {
 	}
 
 	public void run() {
-	    while (s.hasNext()) {
-	    	String input = s.next();
+	    while (s.hasNextLine()) {
+	    	String input = s.nextLine();
 	    	String[] values = input.split(" ");
 	    	int riderNumber = Integer.parseInt(values[0]);
 	    	int startingFloor = Integer.parseInt(values[1]);
@@ -52,6 +52,13 @@ public class RiderThread extends Thread {
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}
+		
+		try {
+			myElevator.myEventBarrier.raise();
+		} catch (InterruptedException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
 		}
 		
 		try {
