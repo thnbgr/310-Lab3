@@ -11,10 +11,9 @@ public class Building extends AbstractBuilding {
 	public Building(int numFloors, int numElevators) {
 		super(numFloors, numElevators);
 	}
-	
+
 	public Building(int numFloors, int numElevators, int numCapacity) {
 		super(numFloors, numElevators);
-		// TODO Auto-generated constructor stub
 
 		myNumFloors = numFloors;
 		myNumElevators = numElevators;
@@ -29,10 +28,12 @@ public class Building extends AbstractBuilding {
 
 			Elevator newElevator = new Elevator(myNumFloors, i, numCapacity,
 					getOnBarriers[i], getOffBarriers[i]);
+			ElevatorThread t = new ElevatorThread(newElevator);
+			t.start();
 			myElevators.add(newElevator);
 		}
 	}
-	
+
 	private Elevator getElevator(int fromFloor) {
 		return myElevators.get(0); // change this
 	}

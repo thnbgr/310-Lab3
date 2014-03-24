@@ -37,17 +37,23 @@ public class RiderThread extends Thread {
 			myElevator = myBuilding.CallDown(startingFloor);
 		}
 
+		try {
+			myElevator.myEventBarrier.raise();
+		} catch (InterruptedException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
 		// Align the rider with the appropriate event barrier and wait on that until the elevator comes and does OpenDoor to raise the barrier
 		try {
 			eventGettingOn = myBuilding.getOnBarriers[myElevator.elevatorId][startingFloor];
 			eventGettingOn.arrive(); // wait on barrier
+			
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
-		// Once the door is open, the rider can enter - the OpenDoor() should result in the eventGettingOn barrier to raise()
-
+		
 		try {
 			if(!myElevator.Enter()) {
 				// deal with max capacity

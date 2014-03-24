@@ -1,19 +1,28 @@
 public class ElevatorThread extends Thread {
-	EventBarrier event;
 	Elevator myElevator;
 
-	public ElevatorThread(EventBarrier e, Elevator elev) {
-		event = e;
+	public ElevatorThread(Elevator elev) {
 		myElevator = elev;
 	}
 
 	public void run() {
 		try {
-			wait();
+			myElevator.myEventBarrier.arrive();
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		try {
+			myElevator.myEventBarrier.complete();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		
+		// NEED TO MAKE SURE THAT RIDERTHREAD HAS ARRIVED BEFORE THIS LINE
 		
 		while (!myElevator.requests.isEmpty()) { // keep going as long as there
 													// are more requests
@@ -25,7 +34,7 @@ public class ElevatorThread extends Thread {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
-
+			
 			try {
 				myElevator.myOnBarriers[myElevator.currentFloor].raise();
 			} catch (InterruptedException e1) {

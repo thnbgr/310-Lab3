@@ -8,8 +8,8 @@ public class Elevator extends AbstractElevator {
 	protected Queue<Integer> requests = new LinkedList<Integer>();
 	protected EventBarrier[] myOnBarriers;	
 	protected EventBarrier[] myOffBarriers;
-	protected EventBarrier currentBarrier;
 	protected boolean doorsClosed;
+	protected EventBarrier myEventBarrier;
 	
 	public Elevator(int numFloors, int elevatorId, int maxOccupancyThreshold) {
 		super(numFloors, elevatorId, maxOccupancyThreshold);
@@ -23,6 +23,7 @@ public class Elevator extends AbstractElevator {
 		currentFloor = 1;
 		myOnBarriers = floorOnBarriers;
 		myOffBarriers = floorOffBarriers;
+		myEventBarrier = new EventBarrier();
 	}
 
 	public void goToNextFloor() {
