@@ -53,9 +53,8 @@ public class EventBarrier extends AbstractEventBarrier {
 
 	@Override
 	public synchronized void complete() throws InterruptedException {
-
 		numCompleted++;
-		if (numCompleted == numArrived) {
+		if (numCompleted >= numArrived) {
 			notifyAll();
 		} else {
 			wait();

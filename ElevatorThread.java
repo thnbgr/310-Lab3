@@ -21,20 +21,11 @@ public class ElevatorThread extends Thread {
 		}
 		
 		try {
-			myElevator.myEventBarrier.arrive();
+			Thread.sleep(500);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		try {
-			myElevator.myEventBarrier.complete();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		
 		
 		// NEED TO MAKE SURE THAT RIDERTHREAD HAS ARRIVED BEFORE THIS LINE
 		
@@ -42,6 +33,7 @@ public class ElevatorThread extends Thread {
 													// are more requests
 			// all requests have been processed
 			myElevator.goToNextFloor();
+			
 			try {
 				myElevator.myOffBarriers[myElevator.currentFloor].raise();
 			} catch (InterruptedException e1) {

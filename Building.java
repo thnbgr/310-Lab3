@@ -1,6 +1,4 @@
 import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.Queue;
 
 public class Building extends AbstractBuilding {
 	protected ArrayList<Elevator> myElevators = new ArrayList<Elevator>();

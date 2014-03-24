@@ -6,6 +6,7 @@ import java.util.Scanner;
 public class Main {
 	public static void main(String[] args) throws InterruptedException, FileNotFoundException {
 		
+		LogWriter.flush();
 		String file = "src/requests.txt";
 		Scanner sc = new Scanner(new File(file));
 	    String header = sc.nextLine();
