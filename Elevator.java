@@ -26,9 +26,9 @@ public class Elevator extends AbstractElevator {
 	}
 
 	public void goToNextFloor() {
-		// close door
-		// move (VisitFloor)
-		// open door
+		ClosedDoors();
+		VisitFloor(requests.poll());
+		OpenDoors();
 	}
 	
 	@Override
@@ -49,18 +49,9 @@ public class Elevator extends AbstractElevator {
 
 	@Override
 	public void VisitFloor(int floor) {
-		// TODO Auto-generated method stub
-		
 		// Visits certain floor
 		currentFloor = floor;
-		
-		// Takes care of notifying so that it can unload, then load riders
-		
-		// Check if queue is empty. If not, pop the next request and VisitFloor
-		
-		// If queue is empty, then wait until new requests come in
-		// called by elevator
-		
+		LogWriter.log("E"+elevatorId+" moves to floor "+floor);
 	}
 
 	@Override
@@ -82,10 +73,12 @@ public class Elevator extends AbstractElevator {
 	}
 
 	@Override
-	public void RequestFloor(int floor) {
+	public synchronized void RequestFloor(int floor) { // called by building
 		// TODO Auto-generated method stub
 		
 		requests.add(floor);
+		
+		//requests = FloorManager.process(requests, floor);
 		
 		// called by rider (arrive)
 	}

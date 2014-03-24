@@ -1,34 +1,45 @@
+import java.io.File;
+import java.util.Scanner;
+
 public class RiderThread extends Thread {
 	EventBarrier eventGettingOn;
 	EventBarrier eventGettingOff;
-	int myFromFloor, myToFloor;
 	Building myBuilding;
 	Elevator myElevator;
+	Scanner s;
+	int myId;
 	
-	public RiderThread(int fromFloor, int toFloor, Building b) {
-		myFromFloor = fromFloor;
-		myToFloor = toFloor;
+	public RiderThread(int id, Building b, Scanner sc) {
+		myId = id;
+		s = sc;
 		myBuilding = b;
 	}
 
 	public void run() {
-		// enclose this all in a while loop
+	    while (s.hasNext()) {
+	    	String input = s.next();
+	    	String[] values = input.split(" ");
+	    	int riderNumber = Integer.parseInt(values[0]);
+	    	int startingFloor = Integer.parseInt(values[1]);
+	    	int destinationFloor = Integer.parseInt(values[2]);
 
+	    	if (riderNumber != myId) continue;
+	    	
 		// Deciding whether to call up or down
-		if(myToFloor > myFromFloor)
+		if(destinationFloor > startingFloor)
 		{
 			// CALL SCHEDULE FUNCTION
-			myElevator = myBuilding.CallUp(myFromFloor);
+			myElevator = myBuilding.CallUp(startingFloor);
 		}
 		else
 		{
 			// CALL SCHEDULE FUNCTION
-			myElevator = myBuilding.CallDown(myFromFloor);
+			myElevator = myBuilding.CallDown(startingFloor);
 		}
 
 		// Align the rider with the appropriate event barrier and wait on that until the elevator comes and does OpenDoor to raise the barrier
 		try {
-			eventGettingOn = myBuilding.getOnBarriers[myElevator.elevatorId][myFromFloor];
+			eventGettingOn = myBuilding.getOnBarriers[myElevator.elevatorId][startingFloor];
 			eventGettingOn.arrive(); // wait on barrier
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
@@ -41,19 +52,17 @@ public class RiderThread extends Thread {
 			if(!myElevator.Enter()) {
 				// deal with max capacity
 			} else {
-				
-				myElevator.RequestFloor(myToFloor);
 				eventGettingOn.complete(); // waiting for all to enter
 			}
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
 		
-		
+		myElevator.RequestFloor(destinationFloor);
 		
 
 		try {
-			eventGettingOff = myBuilding.getOffBarriers[myElevator.elevatorId][myToFloor];
+			eventGettingOff = myBuilding.getOffBarriers[myElevator.elevatorId][destinationFloor];
 			eventGettingOff.arrive();
 		} catch (InterruptedException e) {
 			e.printStackTrace();
@@ -68,6 +77,6 @@ public class RiderThread extends Thread {
 			e.printStackTrace();
 		}
 		
-		
+	    }
 	}
 }
