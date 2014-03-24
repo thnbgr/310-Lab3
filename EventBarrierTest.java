@@ -12,14 +12,10 @@ public class EventBarrierTest {
 		
 		MyThread t1 = new MyThread(e, false);
 
-		MyThread t2 = new MyThread(e, false);
-
 		MyThread t3 = new MyThread(e, true);
 
 		t1.start();
 
-		t2.start();
-		
 		Thread.sleep(100);
 		
 		assertTrue(e.waiters() == 2);
