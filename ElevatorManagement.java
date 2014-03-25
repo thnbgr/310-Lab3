@@ -5,7 +5,7 @@ public class ElevatorManagement {
 	public ElevatorManagement() {}
 
 	public Elevator findElevator(ArrayList<Elevator> myElevators, int fromFloor, int numFloors, boolean callUp){
-ArrayList<Elevator> availableElevators = new ArrayList<Elevator>();
+		ArrayList<Elevator> availableElevators = new ArrayList<Elevator>();
 		
 		int minGoingUpDistance = -numFloors;
 		int minGoingDownDistance = numFloors;
