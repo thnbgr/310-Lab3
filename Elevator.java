@@ -10,6 +10,8 @@ public class Elevator extends AbstractElevator {
 	protected EventBarrier[] myOffBarriers;
 	protected boolean doorsClosed;
 	protected EventBarrier myEventBarrier;
+	protected ElevatorAlgorithm elevatorAlgorithm;
+	protected boolean goingUp;
 	
 	public Elevator(int numFloors, int elevatorId, int maxOccupancyThreshold) {
 		super(numFloors, elevatorId, maxOccupancyThreshold);
@@ -25,19 +27,19 @@ public class Elevator extends AbstractElevator {
 		myOffBarriers = floorOffBarriers;
 		myEventBarrier = new EventBarrier();
 		doorsClosed = true;
+		elevatorAlgorithm = new ElevatorAlgorithm();
+		goingUp = true;
 	}
 
 	public void goToNextFloor() {
-		if (doorsClosed = false) {
 		ClosedDoors();
 		long start = System.nanoTime();
 		LogWriter.log("E"+elevatorId+" on F"+currentFloor+" closes", start);
-		}
 		int nextFloor = requests.poll();
 		VisitFloor(nextFloor);
+		
 		OpenDoors();
-		long start = System.nanoTime();
-
+		start = System.nanoTime();
 		LogWriter.log("E"+elevatorId+" on F"+nextFloor+" opens", start);
 	}
 	
@@ -48,6 +50,8 @@ public class Elevator extends AbstractElevator {
 
 	@Override
 	public void ClosedDoors() {
+		requests = elevatorAlgorithm.sortRequests(requests, currentFloor, goingUp);
+		goingUp = elevatorAlgorithm.checkGoUp(requests, currentFloor, goingUp);
 		doorsClosed = true;
 	}
 

@@ -10,9 +10,17 @@ public class ElevatorAlgorithm {
 		ArrayList<Integer> lowerRequests = new ArrayList<Integer>();
 		Queue<Integer> returnQueue = new LinkedList<Integer>();
 		Set<Integer> ridDuplicates = new HashSet<Integer>();
+		int queueSize = myQueue.size();
 		
-		for (int i=0; i<myQueue.size(); i++) {
+		for (int i=0; i<queueSize; i++) {
 			int polledFloor = myQueue.poll();
+			if (goUp && polledFloor==currentFloor) {
+				higherRequests.add(polledFloor);
+			}
+			if (!goUp && polledFloor==currentFloor) {
+				lowerRequests.add(-polledFloor);
+			}
+			
 			if (polledFloor>currentFloor && !ridDuplicates.contains(polledFloor)) {
 				higherRequests.add(polledFloor);
 			}
@@ -30,13 +38,13 @@ public class ElevatorAlgorithm {
 				returnQueue.add(higherRequests.get(i));
 			}
 			for (int i=0; i<lowerRequests.size(); i++) {
-				returnQueue.add(lowerRequests.get(i));
+				returnQueue.add(-lowerRequests.get(i));
 			}
 		}
 		
 		else {
 			for (int i=0; i<lowerRequests.size(); i++) {
-				returnQueue.add(lowerRequests.get(i));
+				returnQueue.add(-lowerRequests.get(i));
 			}
 			for (int i=0; i<higherRequests.size(); i++) {
 				returnQueue.add(higherRequests.get(i));

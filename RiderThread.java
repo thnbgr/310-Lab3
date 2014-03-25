@@ -62,17 +62,16 @@ public class RiderThread extends Thread {
 			if(!myElevator.Enter()) {
 				// deal with max capacity
 			} else {
+				long start = System.nanoTime();
+				LogWriter.log("R"+riderNumber+" enters E"+myElevator.elevatorId+" on F"+startingFloor, start);
 				eventGettingOn.complete(); // waiting for all to enter
 			}
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		long start = System.nanoTime();
-		LogWriter.log("R"+riderNumber+" enters E"+myElevator.elevatorId+" on F"+startingFloor, start);
-
 		
 		myElevator.RequestFloor(destinationFloor);
-		start = System.nanoTime();
+		long start = System.nanoTime();
 		LogWriter.log("R"+riderNumber+" pushes E"+myElevator.elevatorId+"B"+destinationFloor, start);
 
 		try {
@@ -95,5 +94,12 @@ public class RiderThread extends Thread {
 		}
 		
 	    }
+	    
+	    try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }
