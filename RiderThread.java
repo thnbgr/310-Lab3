@@ -8,7 +8,10 @@ public class RiderThread extends Thread {
 	Elevator myElevator;
 	Scanner s;
 	int myId;
-	
+	int myStartingFloor;
+	int myDestinationFloor;
+	int myRiderNumber;
+
 	public RiderThread(int id, Building b, Scanner sc) {
 		myId = id;
 		s = sc;
@@ -16,28 +19,91 @@ public class RiderThread extends Thread {
 	}
 
 	public void run() {
-	    while (s.hasNextLine()) {
-	    	String input = s.nextLine();
-	    	String[] values = input.split(" ");
-	    	int riderNumber = Integer.parseInt(values[0]);
-	    	int startingFloor = Integer.parseInt(values[1]);
-	    	int destinationFloor = Integer.parseInt(values[2]);
+		while (s.hasNextLine()) {
+			String input = s.nextLine();
+			String[] values = input.split(" ");
+			myRiderNumber = Integer.parseInt(values[0]);
+			myStartingFloor = Integer.parseInt(values[1]);
+			myDestinationFloor = Integer.parseInt(values[2]);
 
-	    	if (riderNumber != myId) continue;
-		// Deciding whether to call up or down
-		if(destinationFloor > startingFloor)
-		{
-			// CALL SCHEDULE FUNCTION
+			if (myRiderNumber != myId)
+				continue;
+			// Deciding whether to call up or down
+			
+			callAndArrive();
+			
+			while (!myElevator.Enter()) {
+				try {
+					long start = System.nanoTime();
+					LogWriter.log("R" + myRiderNumber + " cannot enter E"
+							+ myElevator.elevatorId + " on F" + myStartingFloor+" due to capacity",
+							start);
+					eventGettingOn.complete(); // waiting for all to enter
+
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				
+				callAndArrive();
+
+			}
+			
+			
+			try {
+				long start = System.nanoTime();
+				LogWriter.log("R" + myRiderNumber + " enters E"
+						+ myElevator.elevatorId + " on F" + myStartingFloor,
+						start);
+				eventGettingOn.complete();
+			} catch (InterruptedException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} // waiting for all to enter
+			
+
+			myElevator.RequestFloor(myDestinationFloor);
+			
 			long start = System.nanoTime();
-	    	LogWriter.log("R"+riderNumber+" pushes "+"U"+startingFloor, start);
-			myElevator = myBuilding.CallUp(startingFloor);
+			LogWriter.log("R" + myRiderNumber + " pushes E"
+					+ myElevator.elevatorId + "B" + myDestinationFloor, start);
+
+			try {
+				eventGettingOff = myBuilding.getOffBarriers[myElevator.elevatorId][myDestinationFloor];
+				eventGettingOff.arrive();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+
+			try {
+				myElevator.Exit();
+				start = System.nanoTime();
+				LogWriter.log("R" + myRiderNumber + " exits E"
+						+ myElevator.elevatorId + " on F" + myDestinationFloor,
+						start);
+
+				eventGettingOff.complete(); // waiting for all to enter
+
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+
 		}
-		else
-		{
+
+	}
+
+	private void callAndArrive() {
+		if (myDestinationFloor > myStartingFloor) {
 			// CALL SCHEDULE FUNCTION
 			long start = System.nanoTime();
-	    	LogWriter.log("R"+riderNumber+" pushes "+"D"+startingFloor, start);
-			myElevator = myBuilding.CallDown(startingFloor);
+			LogWriter.log("R" + myRiderNumber + " pushes " + "U"
+					+ myStartingFloor, start);
+			myElevator = myBuilding.CallUp(myStartingFloor);
+		} else {
+			// CALL SCHEDULE FUNCTION
+			long start = System.nanoTime();
+			LogWriter.log("R" + myRiderNumber + " pushes " + "D"
+					+ myStartingFloor, start);
+			myElevator = myBuilding.CallDown(myStartingFloor);
 		}
 
 		try {
@@ -46,60 +112,17 @@ public class RiderThread extends Thread {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		
-		// Align the rider with the appropriate event barrier and wait on that until the elevator comes and does OpenDoor to raise the barrier
+
+		// Align the rider with the appropriate event barrier and wait on that
+		// until the elevator comes and does OpenDoor to raise the barrier
 		try {
-			eventGettingOn = myBuilding.getOnBarriers[myElevator.elevatorId][startingFloor];
+			eventGettingOn = myBuilding.getOnBarriers[myElevator.elevatorId][myStartingFloor];
 			eventGettingOn.arrive(); // wait on barrier
-			
+
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
-		try {
-			if(!myElevator.Enter()) {
-				// deal with max capacity
-			} else {
-				long start = System.nanoTime();
-				LogWriter.log("R"+riderNumber+" enters E"+myElevator.elevatorId+" on F"+startingFloor, start);
-				eventGettingOn.complete(); // waiting for all to enter
-			}
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		
-		myElevator.RequestFloor(destinationFloor);
-		long start = System.nanoTime();
-		LogWriter.log("R"+riderNumber+" pushes E"+myElevator.elevatorId+"B"+destinationFloor, start);
 
-		try {
-			eventGettingOff = myBuilding.getOffBarriers[myElevator.elevatorId][destinationFloor];
-			eventGettingOff.arrive();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		
-		try {
-			myElevator.Exit();
-			start = System.nanoTime();
-			LogWriter.log("R"+riderNumber+" exits E"+myElevator.elevatorId+" on F"+destinationFloor, start);
-
-
-			eventGettingOff.complete(); // waiting for all to enter
-
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		
-	    }
-	    
-	    try {
-			Thread.sleep(2000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	}
 }

@@ -46,7 +46,7 @@ public class ElevatorManagement {
 				int currentDistance = elevatorDistances[i];
 				int currentRequestSize = elevatorNumRequests[i];
 				// Update shortest distance only if the closest elevator below rider and is going up
-				if(currentElevator.goUp && currentDistance<=0) {
+				if(currentElevator.goingUp && currentDistance<=0) {
 					if (currentDistance>minGoingUpDistance) {
 						minGoingUpDistance = currentDistance;
 						indexGoingUpDistance = i;
@@ -72,7 +72,7 @@ public class ElevatorManagement {
 				int currentDistance = elevatorDistances[i];
 				int currentRequestSize = elevatorNumRequests[i];
 				// Update shortest distance only if the closest elevator above rider and is going down
-				if(!currentElevator.goUp && currentDistance>=0) {
+				if(!currentElevator.goingUp && currentDistance>=0) {
 					if (currentDistance<minGoingDownDistance) {
 						minGoingDownDistance = currentDistance;
 						indexGoingDownDistance = i;

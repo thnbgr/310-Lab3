@@ -12,6 +12,7 @@ public class Elevator extends AbstractElevator {
 	protected EventBarrier myEventBarrier;
 	protected ElevatorAlgorithm elevatorAlgorithm;
 	protected boolean goingUp;
+	protected int myNumRiders;
 	
 	public Elevator(int numFloors, int elevatorId, int maxOccupancyThreshold) {
 		super(numFloors, elevatorId, maxOccupancyThreshold);
@@ -22,6 +23,7 @@ public class Elevator extends AbstractElevator {
 	public Elevator(int numFloors, int elevatorId, int maxOccupancyThreshold, EventBarrier[] floorOnBarriers, EventBarrier[] floorOffBarriers) {
 		super(numFloors, elevatorId, maxOccupancyThreshold);
 		// TODO Auto-generated constructor stub
+		myNumRiders = 0;
 		currentFloor = 1;
 		myOnBarriers = floorOnBarriers;
 		myOffBarriers = floorOffBarriers;
@@ -71,23 +73,25 @@ public class Elevator extends AbstractElevator {
 
 	@Override
 	public boolean Enter() {
-		// TODO Auto-generated method stub
-		if(doorsClosed == false)
-			return true;
 		
-		// called by rider
-		return false;
+		if (myNumRiders >= maxOccupancyThreshold) {
+			return false;
+		}
+		myNumRiders++;
+		
+		return !doorsClosed;
 	}
 
 	@Override
 	public void Exit() {
-		
+		myNumRiders--;
 	}
 
 	@Override
 	public synchronized void RequestFloor(int floor) { // called by building
+		
 		requests.add(floor);
-		//requests = FloorManager.process(requests, floor);
+		//requests = elevatorAlgorithm.sortRequests(requests, currentFloor, goingUp);
 		
 	}
 
