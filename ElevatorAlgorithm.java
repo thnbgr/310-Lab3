@@ -14,13 +14,6 @@ public class ElevatorAlgorithm {
 		
 		for (int i=0; i<queueSize; i++) {
 			int polledFloor = myQueue.poll();
-			if (goUp && polledFloor==currentFloor) {
-				higherRequests.add(polledFloor);
-			}
-			if (!goUp && polledFloor==currentFloor) {
-				lowerRequests.add(-polledFloor);
-			}
-			
 			if (polledFloor>currentFloor && !ridDuplicates.contains(polledFloor)) {
 				higherRequests.add(polledFloor);
 			}
