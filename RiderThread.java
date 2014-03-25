@@ -30,6 +30,7 @@ public class RiderThread extends Thread {
 				continue;
 			// Deciding whether to call up or down
 
+			
 			callAndArrive();
 
 			while (!myElevator.Enter()) {
@@ -44,12 +45,15 @@ public class RiderThread extends Thread {
 					e.printStackTrace();
 				}
 
+				// wait before the rider calls for the elevator again
+				
 				try {
-					Thread.sleep(3);
+					Thread.sleep(100);
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+				
 				callAndArrive();
 
 			}

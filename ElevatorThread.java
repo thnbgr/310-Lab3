@@ -20,24 +20,15 @@ public class ElevatorThread extends Thread {
 			e.printStackTrace();
 		}
 
-		try {
-			Thread.sleep(1000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		// NEED TO MAKE SURE THAT RIDERTHREAD HAS ARRIVED BEFORE THIS LINE
-
 		while (true) {
 
 			try {
-				Thread.sleep(1);
+				Thread.sleep(100);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-
+			
 			if (!myElevator.requests.isEmpty()) { // keep going as long as there
 													// are more requests
 
@@ -58,6 +49,7 @@ public class ElevatorThread extends Thread {
 					e1.printStackTrace();
 				}
 
+			
 			}
 		}
 

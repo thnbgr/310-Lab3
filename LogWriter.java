@@ -6,7 +6,7 @@ import java.io.PrintWriter;
 
 public class LogWriter {
 	
-	private static String file_path = "src/output.log";
+	private static String file_path = "src/Elevator.log";
 
 	public static void log(String str, long time) {
 		
