@@ -81,10 +81,7 @@ public class Elevator extends AbstractElevator {
 
 	@Override
 	public void Exit() {
-		// TODO Auto-generated method stub
-
 		
-		// called by rider (complete)
 	}
 
 	@Override
