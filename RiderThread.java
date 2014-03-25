@@ -29,45 +29,45 @@ public class RiderThread extends Thread {
 			if (myRiderNumber != myId)
 				continue;
 			// Deciding whether to call up or down
-			
+
 			callAndArrive();
-			
+
 			while (!myElevator.Enter()) {
 				try {
 					long start = System.nanoTime();
 					LogWriter.log("R" + myRiderNumber + " cannot enter E"
-							+ myElevator.elevatorId + " on F" + myStartingFloor+" due to capacity",
-							start);
-					eventGettingOn.complete(); // waiting for all to enter
-					// what if the successful rider completes first?
-					// what if unsuccessful rider completes first?
-					System.out.println(myRiderNumber+" completes fail");
+							+ myElevator.elevatorId + " on F" + myStartingFloor
+							+ " due to capacity", start);
+					eventGettingOn.complete();
 
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
-				
-				callAndArrive(); // calls this and it never returns
+
+				try {
+					Thread.sleep(3);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				callAndArrive();
 
 			}
-			
-			
+
 			try {
 				long start = System.nanoTime();
 				LogWriter.log("R" + myRiderNumber + " enters E"
 						+ myElevator.elevatorId + " on F" + myStartingFloor,
 						start);
 				eventGettingOn.complete();
-				System.out.println(myRiderNumber+" completes success");
 
 			} catch (InterruptedException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			} // waiting for all to enter
-			
 
 			myElevator.RequestFloor(myDestinationFloor);
-			
+
 			long start = System.nanoTime();
 			LogWriter.log("R" + myRiderNumber + " pushes E"
 					+ myElevator.elevatorId + "B" + myDestinationFloor, start);
@@ -94,6 +94,7 @@ public class RiderThread extends Thread {
 
 		}
 
+		myBuilding.riderDone();
 	}
 
 	private void callAndArrive() {
@@ -122,7 +123,7 @@ public class RiderThread extends Thread {
 		// until the elevator comes and does OpenDoor to raise the barrier
 		try {
 			eventGettingOn = myBuilding.getOnBarriers[myElevator.elevatorId][myStartingFloor];
-// we know for sure that the unsuccessful rider pauses on here
+			// we know for sure that the unsuccessful rider pauses on here
 			eventGettingOn.arrive(); // wait on barrier
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block

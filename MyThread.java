@@ -1,12 +1,12 @@
-
 public class MyThread extends Thread {
 	EventBarrier event;
 	boolean gateKeeper;
+
 	public MyThread(EventBarrier e, boolean g) {
 		gateKeeper = g;
 		event = e;
 	}
-	
+
 	public void run() {
 		if (!gateKeeper) {
 			try {
@@ -24,16 +24,16 @@ public class MyThread extends Thread {
 			}
 		}
 	}
-	
+
 	public void arrive() throws InterruptedException {
 		event.arrive();
 		complete();
 	}
-	
+
 	public void raise() throws InterruptedException {
 		event.raise();
 	}
-	
+
 	public void complete() throws InterruptedException {
 		event.complete();
 	}

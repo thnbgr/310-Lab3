@@ -1,14 +1,16 @@
 public class EventBarrier extends AbstractEventBarrier {
 
-    protected int numArrived; // number that come to the gate
-	protected int numWaiters; // number that go to sleep because the gate is closed
+	protected int numArrived; // number that come to the gate
+	protected int numWaiters; // number that go to sleep because the gate is
+								// closed
 	protected int numCompleted; // number that cross while the gate is open
 	protected int numComplete; // number that finish calling complete()
 	protected boolean barrierClosed; // closed, down
-	protected boolean crossing; // numCrossed - numArrive > 0 -- stragglers or threads are still trying to cross, don't move on to complete
+	protected boolean crossing; // numCrossed - numArrive > 0 -- stragglers or
+								// threads are still trying to cross, don't move
+								// on to complete
 
-	public EventBarrier()
-	{
+	public EventBarrier() {
 		numArrived = 0;
 		numWaiters = 0;
 		numCompleted = 0;
@@ -18,18 +20,16 @@ public class EventBarrier extends AbstractEventBarrier {
 	}
 
 	@Override
-	public synchronized void arrive() throws InterruptedException
-	{
+	public synchronized void arrive() throws InterruptedException {
 		// TODO Auto-generated method stub
 		numArrived++;
 
-		if (barrierClosed)
-		{
+		if (barrierClosed) {
 			numWaiters++;
 			wait();
 		}
 
-		//System.out.println("awoke");
+		// System.out.println("awoke");
 		// If the thread reaches here, then it can start crossing
 		numCompleted++;
 		return;
@@ -52,7 +52,7 @@ public class EventBarrier extends AbstractEventBarrier {
 	}
 
 	@Override
-	public synchronized void complete() throws InterruptedException {	
+	public synchronized void complete() throws InterruptedException {
 		numCompleted++;
 		if (numCompleted >= numArrived) {
 			notifyAll();
@@ -63,7 +63,7 @@ public class EventBarrier extends AbstractEventBarrier {
 
 	@Override
 	public int waiters() {
-		// TODO Auto-generated method stub		
+		// TODO Auto-generated method stub
 		return numWaiters;
 	}
 
