@@ -27,6 +27,14 @@ public class ElevatorAlgorithm {
 			else if(polledFloor<currentFloor && !ridDuplicates.contains(polledFloor)) {
 				lowerRequests.add(-polledFloor);
 			}
+			else if (!ridDuplicates.contains(polledFloor)){
+				if (goUp) {
+					higherRequests.add(polledFloor);
+				}
+				else {
+					lowerRequests.add(-polledFloor);
+				}
+			}
 			ridDuplicates.add(polledFloor);	
 		}
 		
