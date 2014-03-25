@@ -28,7 +28,6 @@ public class ElevatorThread extends Thread {
 		}
 
 		// NEED TO MAKE SURE THAT RIDERTHREAD HAS ARRIVED BEFORE THIS LINE
-		
 		while (!myElevator.requests.isEmpty()) { // keep going as long as there
 													// are more requests
 			
@@ -55,7 +54,6 @@ public class ElevatorThread extends Thread {
 			// all riders have gotten on and requested floors
 			LogWriter.log(myElevator.requests.size() + "", 1);
 		}
-		
 		
 	}
 }

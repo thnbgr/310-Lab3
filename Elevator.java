@@ -51,8 +51,7 @@ public class Elevator extends AbstractElevator {
 	}
 
 	@Override
-	public void ClosedDoors() {
-		requests = elevatorAlgorithm.sortRequests(requests, currentFloor, goingUp);
+	public synchronized void ClosedDoors() {
 		goingUp = elevatorAlgorithm.checkGoUp(requests, currentFloor, goingUp);
 		doorsClosed = true;
 	}
@@ -89,10 +88,11 @@ public class Elevator extends AbstractElevator {
 
 	@Override
 	public synchronized void RequestFloor(int floor) { // called by building
-		
 		requests.add(floor);
-		//requests = elevatorAlgorithm.sortRequests(requests, currentFloor, goingUp);
-		
+		System.out.print(requests+"/");
+		requests = elevatorAlgorithm.sortRequests(requests, currentFloor, goingUp);		
+		System.out.println(requests);
+
 	}
 
 }

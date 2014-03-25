@@ -39,12 +39,15 @@ public class RiderThread extends Thread {
 							+ myElevator.elevatorId + " on F" + myStartingFloor+" due to capacity",
 							start);
 					eventGettingOn.complete(); // waiting for all to enter
+					// what if the successful rider completes first?
+					// what if unsuccessful rider completes first?
+					System.out.println(myRiderNumber+" completes fail");
 
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
 				
-				callAndArrive();
+				callAndArrive(); // calls this and it never returns
 
 			}
 			
@@ -55,6 +58,8 @@ public class RiderThread extends Thread {
 						+ myElevator.elevatorId + " on F" + myStartingFloor,
 						start);
 				eventGettingOn.complete();
+				System.out.println(myRiderNumber+" completes success");
+
 			} catch (InterruptedException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
@@ -117,8 +122,8 @@ public class RiderThread extends Thread {
 		// until the elevator comes and does OpenDoor to raise the barrier
 		try {
 			eventGettingOn = myBuilding.getOnBarriers[myElevator.elevatorId][myStartingFloor];
+// we know for sure that the unsuccessful rider pauses on here
 			eventGettingOn.arrive(); // wait on barrier
-
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
