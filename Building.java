@@ -5,6 +5,7 @@ public class Building extends AbstractBuilding {
 	protected EventBarrier[][] getOnBarriers; // Elevator, Floor
 	protected EventBarrier[][] getOffBarriers; // Elevator, Floor
 	protected int myNumFloors, myNumElevators;
+	protected ElevatorManagement myElevatorManagement;
 	
 	public Building(int numFloors, int numElevators)
 	{
@@ -18,6 +19,7 @@ public class Building extends AbstractBuilding {
 		myNumElevators = numElevators;
 		getOnBarriers = new EventBarrier[numElevators + 1][numFloors + 1];
 		getOffBarriers = new EventBarrier[numElevators + 1][numFloors + 1];
+		myElevatorManagement = new ElevatorManagement();
 
 		for (int i = 1; i <= numElevators; i++) {
 
@@ -41,14 +43,14 @@ public class Building extends AbstractBuilding {
 
 	@Override
 	public Elevator CallUp(int fromFloor) {
-		Elevator currentElevator = getElevator(fromFloor);
+		Elevator currentElevator = myElevatorManagement.findElevator(myElevators, fromFloor, myNumFloors, true);
 		currentElevator.RequestFloor(fromFloor);
 		return currentElevator;
 	}
 
 	@Override
 	public Elevator CallDown(int fromFloor) {
-		Elevator currentElevator = getElevator(fromFloor);
+		Elevator currentElevator = myElevatorManagement.findElevator(myElevators, fromFloor, myNumFloors, false);
 		currentElevator.RequestFloor(fromFloor);
 		return currentElevator;
 	}

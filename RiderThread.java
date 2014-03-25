@@ -44,6 +44,12 @@ public class RiderThread extends Thread {
 					e.printStackTrace();
 				}
 				
+				try {
+					Thread.sleep(3);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				callAndArrive();
 
 			}

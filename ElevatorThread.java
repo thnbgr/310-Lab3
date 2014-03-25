@@ -21,40 +21,48 @@ public class ElevatorThread extends Thread {
 		}
 
 		try {
-			Thread.sleep(500);
+			Thread.sleep(1000);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
 		// NEED TO MAKE SURE THAT RIDERTHREAD HAS ARRIVED BEFORE THIS LINE
-		
-		while (!myElevator.requests.isEmpty()) { // keep going as long as there
-													// are more requests
-			
-			
-			// all requests have been processed
-			myElevator.goToNextFloor();
-
+		while (true) {
 			try {
-				myElevator.myOffBarriers[myElevator.currentFloor].raise();
-			} catch (InterruptedException e1) {
+				Thread.sleep(1);
+			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
-				e1.printStackTrace();
+				e.printStackTrace();
 			}
-
-			try {
-				myElevator.myOnBarriers[myElevator.currentFloor].raise();
-			} catch (InterruptedException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
+			//LogWriter.log("Elevator "+myElevator.elevatorId+"has requests size of: "myElevator.requests.size(), start);
+			if (!myElevator.requests.isEmpty()) { // keep going as long as there
+														// are more requests
+				
+				
+				// all requests have been processed
+				myElevator.goToNextFloor();
+	
+				try {
+					myElevator.myOffBarriers[myElevator.currentFloor].raise();
+				} catch (InterruptedException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+	
+				try {
+					myElevator.myOnBarriers[myElevator.currentFloor].raise();
+				} catch (InterruptedException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+				
+				
+				// all riders have gotten on and requested floors
+				//LogWriter.log(myElevator.requests.size() + "", 1);
 			}
-			
-			
-			
-			// all riders have gotten on and requested floors
-			LogWriter.log(myElevator.requests.size() + "", 1);
-		}
+	}
 		
 		
 	}

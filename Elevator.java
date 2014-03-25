@@ -60,6 +60,8 @@ public class Elevator extends AbstractElevator {
 	@Override
 	public void VisitFloor(int floor) {
 		// Visits certain floor
+		long start1 = System.nanoTime();
+		LogWriter.log("Elevator"+elevatorId+" has next request "+floor, start1);
 		if (currentFloor < floor) {
 			long start = System.nanoTime();
 			LogWriter.log("E"+elevatorId+" moves up to floor "+floor, start);
@@ -89,9 +91,10 @@ public class Elevator extends AbstractElevator {
 
 	@Override
 	public synchronized void RequestFloor(int floor) { // called by building
-		
 		requests.add(floor);
-		//requests = elevatorAlgorithm.sortRequests(requests, currentFloor, goingUp);
+		requests = elevatorAlgorithm.sortRequests(requests, currentFloor, goingUp);
+		
+		
 		
 	}
 
